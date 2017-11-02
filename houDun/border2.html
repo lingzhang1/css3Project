@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>border2</title>
+<style>
+div{ width: 200px;height: 200px;border:1px solid orange; border-radius: 0px; margin:100px auto;}	
+</style>	
+<script>
+window.onload=function(){
+	var oDiv=document.getElementsByTagName('div')[0];
+	var radius=0;
+	var timer=null;
+	oDiv.onmouseover=function(){
+		clearInterval(timer);
+		timer=setInterval(function(){
+			if (parseInt(oDiv.style.borderRadius)>=oDiv.offsetWidth/2) {
+				clearInterval(timer);
+			}
+			else{
+				radius=(oDiv.offsetWidth/2-parseInt(getComputedStyle(oDiv,false)["borderRadius"]))/8;
+				oDiv.style.borderRadius=parseInt(getComputedStyle(oDiv,false)["borderRadius"])+radius+"px";
+			}
+		},60);
+	};
+	oDiv.onmouseout=function(){
+		clearInterval(timer);
+		timer=setInterval(function(){
+			if (parseInt(oDiv.style.borderRadius)<=0) {
+				clearInterval(timer);
+			}
+			else{
+				radius=(0-parseInt(getComputedStyle(oDiv,false)["borderRadius"]))/8;
+				oDiv.style.borderRadius=parseInt(getComputedStyle(oDiv,false)["borderRadius"])+radius+"px";
+			}
+		},60);
+	};
+};
+</script>
+</head>
+<body>
+<div></div>	
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+    *{
+        margin:0;
+        padding:0;
+        list-style: none;
+    }
+    .out{
+        width: 150px;
+        height: 150px;
+        padding: 150px;
+        border: 1px solid #000;
+        /*设置最外层盒子景深*/
+        perspective:500px;
+        position:relative;
+    }
+    .box{
+        width: 150px;
+        height: 150px;
+        border: 1px solid red;
+        position:relative;
+        /*子盒子随附盒子进行3D变换*/
+        transform-style: preserve-3d;
+        backface-visibility: visible;
+    }
+    .box li{
+        width: 150px;
+        height: 150px;
+        position:absolute;
+        line-height: 150px;
+        text-align: center;
+        font-size: 20px;
+    }
+    .box li:nth-of-type(5){
+        background: red;
+        left: 0px;
+        top:-150px;
+        transform:rotateX(-90deg);
+        transform-origin: bottom;
+    }
+    .box li:nth-of-type(2){
+        background: purple;
+        left:-150px;
+        top:0px;
+        transform:rotateY(90deg);
+        transform-origin:right;
+    }
+    .box li:nth-of-type(3){
+        background: green;
+        left: 0px;
+        top:0px;
+    }
+    .box li:nth-of-type(4){
+        background: yellow;
+        left: 150px;
+        top:0px;
+        transform:rotateY(-90deg);
+        transform-origin:left ;
+    }
+    .box li:nth-of-type(6){
+        background: blue;
+        left: 0;
+        top:150px;
+        transform:rotateX(90deg);
+        transform-origin:top;
+    }
+    .box li:nth-of-type(1){
+        background: orange;
+        left: 0;
+        top:0px;
+        transform: translateZ(150px);
+    }
+    .btns{
+        width: 185px;
+        height: 23px;
+        border: 1px solid #333;
+        position:absolute;
+        bottom:40px;
+        left:120px;
+        padding-left: 15px;
+        padding-top: 7px;
+    }
+    .btns div{
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        box-shadow: 2px 2px 2px #000;
+        float:left;
+        margin-right: 15px;
+        cursor:pointer;
+    }
+    .btns div:first-child{
+        background-color:orange;
+    }
+</style>
+<script>
+window.onload=function(){
+    var oBox=document.getElementsByClassName("box")[0];
+    var oLi=oBox.getElementsByTagName("li");
+    var oDiv=document.getElementsByClassName("btns")[0].getElementsByTagName("div");
+    var startA=0;
+    var endA=0;
+    var timer=null;
+    timer=setInterval(function(){
+        timerInner();
+    },3000);
+    for(var i=0;i<oDiv.length;i++){
+        oDiv[i].index=i;
+        oDiv[i].onclick=function(){
+            clearInterval(timer);
+            changeA(oBox,(this.index-1)*90,this.index*90);
+            for(var j=0;j<oDiv.length;j++){
+                oDiv[j].style.background="none";
+            }
+            oDiv[this.index].style.background=getStyle(oLi[this.index],"backgroundColor");
+        };
+        oDiv[i].onmouseover=function(){
+            clearInterval(timer);
+        };
+        oDiv[i].onmouseout=function(){
+            clearInterval(timer)
+            timer=setInterval(function(){
+                timerInner();
+            },3000)
+        };
+    }
+    //定时器内容
+    function timerInner(){
+        endA+=90;
+        if(endA>=360){
+            endA=0;
+        }
+        startA=endA-90;
+        changeA(oBox,startA,endA);
+        for(var i=0;i<oDiv.length;i++){
+            oDiv[i].style.background="none";
+        }
+        oDiv[endA/90].style.background=getStyle(oLi[(endA)/90],"backgroundColor");
+    };
+};
+//3D角度转换
+function changeA(obj,startA,endA){
+    clearInterval(obj.t);
+    obj.t=setInterval(function(){
+        if(startA==endA){
+            clearInterval(obj.t);
+        }
+        else{
+            var speed=(endA-startA)*0.3;
+            speed=speed>0?Math.ceil(speed):Math.floor(speed);
+            startA+=speed;
+            setCss3(obj,{"transform":"rotateY("+(startA)+"deg)","transform-origin":"75px 75px 75px"});
+        }
+    },100);
+};
+function getStyle(obj,attr){
+    if(obj.attachEvent){
+        return obj.attachEvent(attr);
+    }
+    else{
+        return getComputedStyle(obj,false)[attr];
+    }
+};
+function setCss3(obj,attrObj){
+        for(var i in attrObj){
+            var newi=i;
+            if(newi.indexOf("-")>0){
+                var num=newi.indexOf("-");
+                //去掉横线，将小写转换成大写
+                newi=newi.replace(newi.substr(num,2),newi.substr(num+1,1).toUpperCase());
+            }
+            obj.style[newi]=attrObj[i];
+            newi= i.replace(newi.charAt(0),newi.charAt(0).toUpperCase());
+            obj.style["webkit"+newi]=attrObj[i];
+            obj.style["moz"+newi]=attrObj[i];
+            obj.style["o"+newi]=attrObj[i];
+            obj.style["ms"+newi]=attrObj[i];
+        }
+};
+
+</script>
+</head>
+<body>
+<div class="out">
+    <ul class="box">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+    </ul>
+    <div class="btns">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+
+    </div>
+</div>
+</body>
+</html>

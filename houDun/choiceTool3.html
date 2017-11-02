@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>css3Tool3</title>
+<style>
+a{ text-decoration: none; font-size: 20px;}
+a:link{ color:orange; }
+a:active{ color:red; }
+a:visited{ color:green; }
+a:hover{ color:yellow; }
+div:hover{ color:red; }
+input:focus{ background: orange; }
+p:first-letter{ font-size: 10px;color:red; }
+p:first-line{ font-size: 13px;color:green; }
+p:before,p:after{ content:"~~~~~~~~~"; }
+#con1:target{ background: orange; }
+#con2:target{ background: silver; }
+</style>
+<style></style>
+<script>
+window.onload=function(){
+	var oSelect=document.getElementById('select');
+	var oSpan=document.getElementsByTagName('span')[0];
+	//按键抬起事件
+	oSelect.onkeyup=function(){
+		if (oSelect.value=='') {
+			Delete();
+			return;
+		}
+		else{
+			Delete();
+			var rule=oSelect.value+oSpan.innerHTML;
+			document.styleSheets[1].insertRule(rule,0);
+			//页面中，所有样式表数组中索引只是1 的样式表
+			//将新规则田家达样式表第一位
+		}
+	};
+	//删除样式表规则：
+	function Delete(){
+		//遍历页面中第二个样式表的所有样式规则：
+		for (var i = 0; i < document.styleSheets[1].cssRules.length; i++) {
+			document.styleSheets[1].deleteRule(i);
+			//删除每一个的样式规则
+		}
+	};
+};
+</script>
+</head>
+<body>
+<input type="text" id="select">
+<span> { background:red; }</span>
+<br>
+<a href="#">链接</a>
+<div>div</div>	
+<a href="#con1">链接一</a>
+<a href="#con2">链接二</a>
+<p id="con1">div p	后代选择器
+div>p	子代选择器
+div:only-child	div是父级唯一的子元素，
+p:nth-child(2n)	匹配父元素中的2的倍数个子 元素。
+n 可以是数字、关键词或公式
+  
+</p>
+<p id="con2">Odd 和 even 是可用于匹<br>配下标是奇数或偶数的子元素的关键词（第一个子元素的下标是 1）
+:nth-last-child(n)	同上，从最后一个子元素开始计数。
+p:first-child	选择属于父元素的第一个子元素的每个</p>
+
+</body>
+</html>

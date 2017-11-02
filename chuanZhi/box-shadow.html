@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>box-shadow</title>
+	<style>
+	*{ margin: 0; padding: 0; border: 0 none; }
+	.box{
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		-webkit-border-radius: 50%;
+		/*background-color: green;*/
+		box-shadow:0 0 1px #ccc inset;
+		-webkit-box-shadow:0 0 1px #ccc inset;
+		margin: 200px;
+		transition: box-shadow 0.25s ease 0s, transform 0.25s ease 0s;
+		-webkit-transition: box-shadow 0.25s ease 0s, transform 0.25s ease 0s;
+		cursor: pointer;
+	}
+	.inner{
+			position: relative;
+			width: 12px;
+			height:12px;
+			/*background-color: red;*/
+			float: right;
+			margin: 19px 19px;
+			/*transition: transform 0.25s ease 0s;*/
+		}
+	.outtri{
+			width: 0px;
+			height: 0px;
+			border-style: solid dashed;
+			border-width: 6px;
+			border-color: white transparent;
+			border-bottom: none;
+			position: absolute;
+			/*top: 8px;*/
+			z-index: 300;
+			-webkit-transition: border-color 0.25s ease 0s;
+		}
+	.intri{
+			width: 0px;
+			height: 0px;
+			border-style: solid dashed;
+			border-width: 6px;
+			border-color: grey transparent ;
+			border-bottom: none;
+			position: absolute;
+			top: 3px;
+			z-index: 1;
+		}
+	.box:hover .outtri{
+			border-color: #ccc transparent;
+			
+		}
+	/*.box:hover .inner{
+			transform: rotate(180deg);
+		}*/
+	.box:hover{
+
+
+		-webkit-box-shadow: 0 0 0 25px #ccc inset;
+		box-shadow: 0 0 0 25px #ccc inset; 
+		-webkit-transform: rotate(180deg);
+		transform: rotate(180deg);
+	}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div class="inner">
+			<div class="outtri"></div>
+			<div class="intri"></div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        /*body{*/
+            /*perspective: 500px;*/
+        /*}*/
+        .out{
+            width: 300px;
+            height: 300px;
+            border: 1px solid #000;
+            margin:0 auto;
+            margin-top:100px ;
+            /*景深，一般放在父元素身上*/
+            perspective:500px;
+            perspective-origin:50px 50px ;
+            /*灭点，必须跟景深一起用*/
+            /*transform-style: preserve-3d;*/
+            /*transform:rotateY(40deg);*/
+        }
+        .inner{
+            width: 200px;
+            height: 200px;
+            border: 1px solid red;
+            margin:50px 50px;
+            /*transform-origin:top center 100px;*/
+            transform:rotateX(40deg);
+        }
+    </style>
+</head>
+<body>
+<div class="out">
+    <div class="inner"></div>
+</div>
+</body>
+</html>

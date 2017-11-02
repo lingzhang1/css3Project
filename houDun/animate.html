@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+<style>
+    @keyframes first {
+        0%{
+            width:200px;
+        }
+        100%{
+            width:400px;
+        }
+        /*或者用from to*/
+    }
+    .box{
+        width: 200px;
+        height: 200px;
+        border: 1px solid #000;
+        animation:first 2s ease 0s;
+        animation-play-state:paused;
+        /*运动状态只能单独写。不可简写*/
+    }
+</style>
+<script>
+window.onload=function(){
+    var btn=document.getElementsByTagName("input")[0];
+    var box=document.getElementsByClassName('box')[0];
+    btn.onclick=function(){
+        box.style.animationPlayState="running";
+//        setTimeout(function(){
+//            box.style.animationPlayState="paused";
+//        },2000);
+    };
+    box.addEventListener("animationend",function(){
+        box.style.animationPlayState="paused";
+        alert("停止了");
+    },false);
+};
+
+</script>
+</head>
+<body>
+<div class="box"></div>
+<input type="button" value="运动"/>
+</body>
+</html>

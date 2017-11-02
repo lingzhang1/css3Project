@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>css3Demo</title>
+<style>
+.first{ border: 1px solid red; }
+.second{ border: 1px solid blue; }
+.three{ border: 1px solid green; }
+ul,li{ list-style: none;margin:5px 0; }
+</style>
+<style></style>
+<script>
+window.onload=function(){
+	var oSelect=document.getElementById('select');
+	var oSpan=document.getElementsByTagName('span')[0];
+	//按键抬起事件
+	oSelect.onkeyup=function(){
+		if (oSelect.value=='') {
+			Delete();
+			return;
+		}
+		else{
+			Delete();
+			var rule=oSelect.value+oSpan.innerHTML;
+			document.styleSheets[1].insertRule(rule,0);
+			//页面中，所有样式表数组中索引只是1 的样式表
+			//将新规则田家达样式表第一位
+		}
+	};
+	//删除样式表规则：
+	function Delete(){
+		//遍历页面中第二个样式表的所有样式规则：
+		for (var i = 0; i < document.styleSheets[1].cssRules.length; i++) {
+			document.styleSheets[1].deleteRule(i);
+			//删除每一个的样式规则
+		}
+	};
+};
+</script>
+</head>
+<body>
+<input type="text" id="select">
+<span> { background:red; }</span>
+<ul class="first">
+	<span></span>
+	<li>first-one</li>
+	<li>first-two</li>
+	<li>first-three</li>
+	<li>first-four</li>
+</ul>
+<ul class="second">
+	<li>second-one</li>
+	<li>second-two</li>
+	<li>second-three</li>
+	<li>second-four</li>
+</ul>
+<ul class="three">
+	<li>three-one</li>
+	<li>three-two</li>
+	<li>three-three</li>
+	<li>three-four</li>
+</ul>
+<ul class="four">
+	<li>four-one</li>
+</ul>				
+</body>
+</html>

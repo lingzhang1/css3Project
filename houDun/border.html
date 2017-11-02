@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>border</title>
+<style>
+.div{ width:200px;height:200px;border-style: solid;border-width: 2px;border-color: orange;margin:100px auto;
+	border-radius: 20px;
+	/*border-radius:20px 50px 100px 100px;*/
+	box-shadow: -6px 16px 3px 0px #ccc;
+	/*transition:transform 0.5s ease 0s ;*/
+	border-image-source:url(../images/borderImg/border.png); 
+	border-image-slice: 26; /*不需要单位*/
+	border-image-width: 27;
+	border-image-outset: 15px;
+	border-image-repeat: repeat;
+	border-image-repeat: stretch round;/*横向 纵向*/
+}
+/*.div:hover{
+	transform:rotateX(100deg);
+	box-shadow: -6px 16px 3px 0px orange;
+}*/
+</style>
+<script>
+window.onload=function(){
+	var oDiv=document.getElementsByTagName('div')[0];
+	var length=oDiv.attributes.length;
+	// alert(oDiv.getAttribute("aa"));
+};
+</script>
+</head>
+<body>
+<div class="div"></div>	
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>textFlip</title>
+	<style>
+	*{ margin: 0; padding: 0; border:0;}
+	body{
+		padding: 200px;
+	}
+	.word{
+		font: 4rem "微软雅黑";
+		margin: 2rem;
+		color: #369;
+		position: relative;
+	}
+	.word:before,.word:after{
+		content:attr(data-word); 
+		position: absolute;
+		top: 0;
+		left: 0;
+		transform-origin:left top;/*旋转中心*/
+		transition: all 0.3s ease-in 0s;
+		/*以左上角为轴旋转*/ 
+	}
+	.word:before{
+		color: orange;
+		z-index: 3;
+		transform: rotateY(-15deg) rotateX(0deg) rotateZ(0deg);
+	}
+	.word:after{
+		color:rgba(0,0,0,0.4);
+		z-index: 2;
+		transform: scale(1.1,1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+	}
+	.word:hover:before{
+		color: orange;
+		transform: rotateX(0deg) rotateY(-40deg) rotateZ(0deg) skew(0deg,1deg);
+	}
+	.word:hover:after{
+		transform:scale(1.1,1) rotateX(0deg) rotateY(-40deg) rotateZ(0deg) skew(0deg,20deg);
+	}
+	</style>
+</head>
+<body>
+	<span class="word" data-word="传">传</span>
+	<span class="word" data-word="智">智</span>
+	<span class="word" data-word="播">播</span>
+	<span class="word" data-word="客">客</span>
+</body>
+</html>

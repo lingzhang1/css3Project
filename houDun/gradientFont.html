@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+    div {
+        font-size:12em;
+        /*为不支持渐变的浏览器规定相似颜色*/
+        color: green;
+        /*放射性渐变*/
+        background: -webkit-gradient(linear,0 0,0 bottom,from(red),to(green));
+        /*规定背景渐变显示的区域只限于文字*/
+        -webkit-background-clip: text;
+        /*文字跟来背景颜色透明度设为全透明*/
+        -webkit-text-fill-color: rgba(0,0,0,0);
+    }
+    
+</style>
+</head>
+<body>
+<div>后盾网CSS3视频教程</div>
+</body>
+</html>

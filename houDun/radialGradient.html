@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+    div {
+        width: 200px;
+        height: 200px;
+        /*谷歌浏览器*/
+        background: -webkit-gradient(radial,100 100,0,100 100,100,from(#000000),to(#ffffff),color-stop(0.4,red),color-stop(0.8,green));
+        /*火浏览器*/
+        background: -moz-radial-gradient(circle closest-side, rgb(255, 0, 0) 14%, rgb(255, 255, 0) 50%, rgb(0, 0, 255) 100%);
+        /*IE浏览器 支持IE9及以下，不支持IE10以上*/
+        filter: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#3524ff,endColorStr=#ff3718);
+    }
+</style>
+</head>
+<body>
+<div></div>
+</body>
+</html>

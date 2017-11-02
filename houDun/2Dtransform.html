@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .out{
+            width: 200px;
+            height: 200px;
+            border: 1px solid red;
+        }
+        .inner{
+            width: 200px;
+            height: 200px;
+            border: 1px solid blue;
+            /*物体平移*/
+            transform:translate(10px,10px);
+            transform:translateX(10px);
+            /*设置转换中心 像素值  百分数 关键字*/
+            transform-origin:left top;
+            transform:scale(0.5,0.5);
+            transform:scaleX(0.5);
+            /*以物体中心进行变化*/
+            transform:rotate(10deg);
+            /*角度deg或者弧度rad*/
+            transform:skew(10deg,10deg);
+            /*X缩放，X斜切，Y斜切，Y缩放，X平移，Y平移*/
+            transform:matrix(0.5,0.1,0.1,1,100,100);
+            /*斜切只接收弧度*/
+        }
+    </style>
+</head>
+<body>
+<div class="out">
+    <div class="inner"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+    body{
+        background: #000;
+        margin:0;
+        padding:0;
+    }
+    ul,li{
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .scene{
+        width: 500px;
+        height: 500px;
+        border: 1px solid red;
+        margin:10px auto;
+        position:relative;
+        /*景深*/
+        perspective: 2000px;
+
+    }
+    .out{
+        width: 100%;
+        height: 100%;
+        position:relative;
+        transform:translateZ(-100px);
+    }
+    .ball{
+        width: 100%;
+        height: 100%;
+        position:relative;
+        /*子元素与父元素一起变换*/
+        transform-style:preserve-3d;
+    }
+    .ball li{
+        width: 80px;
+        height: 50px;
+        background: rgba(32,163,115,1);
+        position:absolute;
+        border-radius: 10%;
+        box-shadow: 0 0 15px #42cd9a;
+        border: 1px solid #238a64;
+        background-clip: content-box;
+        padding: 3px;
+        text-align: center;
+        line-height: 50px;
+        color:#fff;
+        text-shadow: 0 0 4px #000;
+        font-size:16px ;
+        font-family: "microsoft yahei";
+    }
+</style>
+<script src="fn/tool.js"></script>
+<script>
+window.onload=function(){
+    var oBall=document.getElementsByClassName("ball")[0];
+    var oOut=document.getElementsByClassName("out")[0];
+    var oScene=document.getElementsByClassName("scene")[0];
+    var oDrawBall=new drawBall();
+    //绘制球
+    oDrawBall.draw(oBall);
+    //旋转球
+    //创建旋转对象
+    var oMath=new math();
+    //两个三维向量相乘，等于垂直于这两个向量的第三个向量
+    var angle=2;
+    var timer=null;
+    //设定坐标系中的点，改变球的运动方向
+    oMath.mouse=[1,0,0];
+    //定时器内容
+    function inTimer(){
+        if(angle>2){
+            angle*=0.9;
+        }
+        else if(angle<2){
+            angle=2;
+        }
+        oMath.theta+=angle;//旋转角度
+        oMath.rotates();//创建三维矩阵
+        var arr=oMath.arr;
+        setCss3(oBall,{"transform":"matrix3d("+arr[0]+","+arr[1]+","+arr[2]+","+arr[3]+","
+        +arr[4]+","+arr[5]+"," +arr[6]+","+arr[7]+","+arr[8]+","+arr[9]+","+arr[10]+","+arr[11]+","
+        +arr[12]+","+arr[13]+","+arr[14]+","+arr[15]+")"});
+    };
+    timer=setInterval(function(){
+        inTimer();
+    },60);
+    //滚轮控制球大小 对象 滚轮向上函数 滚轮向下函数
+    var startZ=-100;
+    var step=10;
+    mouseScroll(oOut,function(){
+        startZ+=step;
+        setCss3(oOut,{"transform":"translateZ("+startZ+"px)"});
+    },function(){
+        startZ-=step;
+        setCss3(oOut,{"transform":"translateZ("+startZ+"px)"});
+    });
+    //拖拽鼠标控制球的旋转速度和方向
+    oScene.onmousedown=function(ev){
+        clearInterval(timer);
+        var oEvent=ev||event;
+        var lastx=oEvent.clientX-oScene.offsetLeft-250;
+        var lasty=oEvent.clientY-oScene.offsetTop-250;
+        document.onmousemove=function(ev){
+            var oEvent=ev||event;
+            var cx=oEvent.clientX-oScene.offsetLeft-250;
+            var cy=oEvent.clientY-oScene.offsetTop-250;
+            var speedx=cx-lastx;
+            var speedy=cx-lasty;
+            lastx=cx;
+            lasty=cy;
+            //获取鼠标速度
+            angle=Math.pow((Math.pow(speedx,2)+Math.pow(speedy,2)),1/2)/40;
+            oMath.mouse=[cx,cy,0];//改变旋转方向
+            oMath.theta+=angle;//旋转角度
+            oMath.rotates();//重新创建三维矩阵
+            var arr=oMath.arr;
+            setCss3(oBall,{"transform":"matrix3d("+arr[0]+","+arr[1]+","+arr[2]+","+arr[3]+","+arr[4]+","
+            +arr[5]+","+arr[6]+","+arr[7]+","+arr[8]+","+arr[9]+","+arr[10]+","+arr[11]+","+arr[12]+","
+            +arr[13]+","+arr[14]+","+arr[15]+")"});
+        };
+        document.onmouseup=function(){
+            document.onmousemove=null;
+            document.onmouseup=null;
+            timer=setInterval(function(){
+                inTimer();
+            },60);
+        };
+        return false;
+    };
+};
+function drawBall(){
+    this.radius=200;
+    this.allAngles=[];
+    this.length=25;
+    this.text=["css3","html5","html5","javascript","php","javascript","php","node.js","css3","html5","ascript",
+        "hdphp","javascript","php","css","flash","ascript","hdphp","html"];
+};
+//给球上的每一个点定位
+drawBall.prototype={
+    angle:function(){
+        var num=0;
+        for(var i=0; i<25;i++){
+            var obj={};
+            if(i==0){
+                obj.theta=0;
+                obj.phi=0;
+            }
+            if(i>=1&&i<4){
+                obj.theta=Math.PI/6*1;
+                obj.phi=2*Math.PI/3*num;
+                num++;
+            }
+            if(i>=4&&i<9){
+                obj.theta=Math.PI/6*2;
+                obj.phi=2*Math.PI/5*num;
+                num++;
+            }
+            if(i>=9&&i<16){
+
+                obj.theta=Math.PI/6*3;
+                obj.phi=2*Math.PI/7*num;
+                num++;
+            }
+            if(i>=16&&i<21){
+
+                obj.theta=Math.PI/6*4;
+                obj.phi=2*Math.PI/5*num;
+                num++;
+            }
+            if(i>=21&&i<24){
+
+                obj.theta=Math.PI/6*5;
+                obj.phi=2*Math.PI/3*num;
+                num++;
+            }
+            if(i==24){
+                obj.theta=Math.PI;
+                obj.phi=0;
+            }
+            this.allAngles.push(obj);
+        }
+    },
+    draw:function(obj){
+        this.angle();
+        for(var i=0;i<this.length;i++){
+            //+250 以ball的中心为变换中心
+            //球坐标中：x y z位置分别是 z x y
+            //将极坐标转换成直角坐标
+            var z=this.radius*Math.sin(this.allAngles[i].theta)*Math.cos(this.allAngles[i].phi);
+            var x=this.radius*Math.sin(this.allAngles[i].theta)*Math.sin(this.allAngles[i].phi)+210;
+            var y=this.radius*Math.cos(this.allAngles[i].theta)+210;
+            var oLi=document.createElement("li");
+            oLi.innerHTML=this.text[i];
+            oLi.style.cssText="top:"+y+"px;left:"+x+"px;";
+            //将每一个li进行旋转，要先进行Y轴旋转，再进行X轴旋转
+            setCss3(oLi,{"transform":"translateZ("+z+"px)"+
+            "rotateY("+this.allAngles[i].phi+"rad) rotateX("+(this.allAngles[i].theta-Math.PI/2)+"rad)"})
+            obj.appendChild(oLi);
+        }
+    }
+};
+function setCss3(obj,attrObj){
+    for(var i in attrObj){
+        var newi=i;
+        if(newi.indexOf("-")>0){
+            var num=newi.indexOf("-");
+            //去掉横线，将小写转换成大写
+            newi=newi.replace(newi.substr(num,2),newi.substr(num+1,1).toUpperCase());
+        }
+        obj.style[newi]=attrObj[i];
+        newi= i.replace(newi.charAt(0),newi.charAt(0).toUpperCase());
+        obj.style["webkit"+newi]=attrObj[i];
+        obj.style["moz"+newi]=attrObj[i];
+        obj.style["o"+newi]=attrObj[i];
+        obj.style["ms"+newi]=attrObj[i];
+    }
+};
+</script>
+</head>
+<body>
+<div class="scene">
+    <div class="out">
+        <ul class="ball">
+
+        </ul>
+    </div>
+</div>
+</body>
+</html>

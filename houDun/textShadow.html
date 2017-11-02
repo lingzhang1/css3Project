@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>textshadow</title>
+<style>
+	div{ cursor:pointer; font-size: 40px;}
+</style>
+<script>
+window.onload=function(){
+	var oDiv=document.getElementsByTagName('div')[0];
+	var num=0;
+	var timer=null;
+	oDiv.onmouseover=function(){
+		clearInterval(timer);
+		timer=setInterval(function(){
+			if (num==5) {
+				clearInterval(timer);
+			}
+			else{
+				num++;
+				oDiv.style.textShadow=num+'px '+num+'px '+num+'px #333';
+			}
+		},60);
+	};
+	oDiv.onmouseout=function(){
+		clearInterval(timer);
+		timer=setInterval(function(){
+			if (num==0) {
+				clearInterval(timer);
+			}
+			else{
+				oDiv.style.textShadow=num+'px '+num+'px '+num+'px '+"#333";
+				num--;
+			}
+		},60);
+	};
+};
+</script>
+</head>
+<body>
+<div>本段网页的概述</div>	
+</body>
+</html>

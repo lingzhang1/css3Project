@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+.one{
+    width: 240px;
+    height: 240px;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    box-shadow: 2px 2px 4px 2px #111;
+    background: -webkit-gradient(radial,120 120,0,120 120,120, from(#ffe),to(#eee));
+    background: -moz-radial-gradient(circle closest-side,#ffe 0%,#eee 100%);
+    position:relative;
+}
+</style>
+<script>
+window.onload=function(){
+    var oDiv=document.getElementsByClassName("one")[0];
+    drawMark(oDiv);
+    var oDate=new Date();
+    var hours=oDate.getHours();
+    var minutes=oDate.getMinutes();
+    var seconds=oDate.getSeconds();
+    if(hours>12){
+        hours=hours-12;
+    }
+    var hoursPoint=drawPoint(oDiv,120,120,5,50,"#333",(hours+minutes/60)*30+180);
+    var minsPoint=drawPoint(oDiv,120,120,5,70,"#444",minutes*6+180);
+    var secondsPoint=drawPoint(oDiv,120,120,3,80,"#555",seconds*6+180);
+    setInterval(function(){
+//        oDiv.removeChild(hoursPoint)
+//        oDiv.removeChild(minsPoint)
+//        oDiv.removeChild(secondsPoint)
+        oDate=new Date();
+        hours=oDate.getHours();
+        minutes=oDate.getMinutes();
+        seconds=oDate.getSeconds();
+        if(hours>12){
+            hours=hours-12;
+        }
+//        hoursPoint=drawPoint(oDiv,120,120,5,50,"#333",(hours+minutes/60)*30+180);
+//        minsPoint=drawPoint(oDiv,120,120,5,70,"#444",minutes*6+180);
+//        secondsPoint=drawPoint(oDiv,120,120,3,80,"#555",seconds*6+180);
+        setCss3(hoursPoint,{"transform":"rotate("+((hours+minutes/60)*30+180)+"deg)","transform-origin":"50% 0px"})
+        setCss3(minsPoint,{"transform":"rotate("+(minutes*6+180)+"deg)","transform-origin":"50% 0px"})
+        setCss3(secondsPoint,{"transform":"rotate("+(seconds*6+180)+"deg)","transform-origin":"50% 0px"})
+    },1000);
+};
+//绘制表针
+function drawPoint(obj,startx,starty,width,height,color,angle){
+    var oCreateDiv=document.createElement("div");
+    //利用cssText设置div属性值
+    oCreateDiv.style.cssText="width:"+width+"px;height:"+height+"px;background:"+color+";position:absolute;top:"+starty+"px;left:"+startx+"px;border-radius:3px;";
+    //绘制完成后DIV进行旋转
+    setCss3(oCreateDiv,{"transform":"rotate("+angle+"deg)","transform-origin":"50% 0px"})
+    obj.appendChild(oCreateDiv);
+    //将表针对象返回，用于运动控制
+    return oCreateDiv;
+};
+//绘制刻度
+function drawMark(obj){
+    for(var i=0;i<60;i++){
+        var  oCreateDiv=document.createElement("div");
+        //通过cssText设置小刻度样式
+        var widths="3px";
+        var heights="6px";
+        if(i%5==0){
+            widths="5px";
+            heights="10px";
+        }
+        oCreateDiv.style.cssText="width:"+widths+";height:+"heights+";background:#111;position:absolute;top:0;left:120px;";
+        //每绘制一刻，小刻度进行旋转，以钟表圆心为旋转中心
+        setCss3(oCreateDiv,{"transform":"rotate("+i*6+"deg)","transform-origin":"0px 120px"})
+        obj.appendChild(oCreateDiv);
+    }
+};
+//设置CSS3样式
+function setCss3(obj,attrObj){
+    for(var i in attrObj){
+        var newi=i;
+        if(newi.indexOf("-")>0){
+            var num=newi.indexOf("-");
+            //去掉横线，将小写转换成大写
+            newi=newi.replace(newi.substr(num,2),newi.substr(num+1,1).toUpperCase());
+        }
+        obj.style[newi]=attrObj[i];
+        //针对带内核前缀属性，属性第一个字母大写
+        newi= i.replace(newi.charAt(0),newi.charAt(0).toUpperCase());
+        obj.style["webkit"+newi]=attrObj[i];
+        obj.style["moz"+newi]=attrObj[i];
+        obj.style["o"+newi]=attrObj[i];
+        obj.style["ms"+newi]=attrObj[i];
+    }
+};
+</script>
+</head>
+<body>
+<div class="one"></div>
+</body>
+</html>

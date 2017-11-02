@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+    @keyframes first{
+        from{
+            width: 200px;
+        }
+        to{
+            width: 400px;
+        }
+    }
+    @keyframes second{
+        from{
+            width: 400px;
+        }
+        to{
+            width: 200px;
+        }
+    }
+     div{
+          width: 200px;
+          height: 100px;
+          background: red;
+      }
+    .one{
+        animation:first 2s ease 0s;
+        animation-play-state: paused;
+    }
+    .two{
+        animation:second 2s ease 0s;
+    }
+</style>
+<script>
+window.onload=function(){
+    var oDiv=document.getElementsByTagName("div")[0];
+    var oBtn=document.getElementsByTagName("input")[0];
+    oBtn.onclick=function(){
+        oDiv.style.animationPlayState="running";
+    };
+    oDiv.addEventListener("animationend",function(){
+        oDiv.style.animationPlayState="paused";
+        oDiv.style.width="400px";
+        if(oDiv.className=="one"){
+            oDiv.className="two";
+        }
+        else{
+            oDiv.className="one";
+        }
+    },false);
+};
+
+</script>
+</head>
+<body>
+<div class="one"></div>
+<input type="button" value="切换"/>
+</body>
+</html>

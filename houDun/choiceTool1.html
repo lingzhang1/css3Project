@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>css3Demo</title>
+<style>
+.first-div{ border:1px solid red; }	
+.second-div{ border:1px solid green; }
+.third-div{ border:1px solid yellow; }
+div{ margin:5px 0;}
+</style>
+<style>
+	
+</style>
+<script>
+window.onload=function(){
+	var oSelect=document.getElementById('select');
+	var oSpan=document.getElementsByTagName('span')[0];
+	//按键抬起事件
+	oSelect.onkeyup=function(){
+		if (oSelect.value=='') {
+			Delete();
+			return;
+		}
+		else{
+			Delete();
+			var rule=oSelect.value+oSpan.innerHTML;
+			document.styleSheets[1].insertRule(rule,0);
+			//页面中，所有样式表数组中索引只是1 的样式表
+			//将新规则田家达样式表第一位
+		}
+	};
+	//删除样式表规则：
+	function Delete(){
+		//遍历页面中第二个样式表的所有样式规则：
+		for (var i = 0; i < document.styleSheets[1].cssRules.length; i++) {
+			document.styleSheets[1].deleteRule(i);
+			//删除每一个的样式规则
+		}
+	};
+};
+</script>
+</head>
+<body>
+
+<div class="first-div">
+	<div class="first-one">
+		first-one
+	</div>
+	<div class="first-two">
+		first-two
+	</div>
+	<div class="first-three">
+		first-three
+	</div>
+</div>
+<div class="second-div">
+	<div class="second-one">
+		second-one
+	</div>
+	<div class="second-two">
+		second-two
+	</div>
+	<div class="second-three">
+		second-three
+	</div>
+</div>	
+<div class="third-div">
+	<div class="third-one">
+		third-one
+	</div>
+</div>
+<input type="text" id="select">
+<span> { background:red; }</span>			
+</body>
+</html>

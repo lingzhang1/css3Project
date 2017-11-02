@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>bgScrollImg</title>
+<style>
+	div{ width: 200px;height: 200px;
+		background-image: url(../images/background/1.jpg),url(../images/background/2.jpg),url(../images/background/3.jpg);
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		background-position: 0 0,-500px -500px,-500px -500px;
+	}
+</style>
+<script>
+window.onload=function(){
+	var oDiv=document.getElementsByTagName('div')[0];
+	var bgStr=getStyle(oDiv,"backgroundPosition");
+	var bgArr=bgStr.split(",");
+	var num=0;
+	setInterval(function(){
+		for (var i = 0; i < bgArr.length; i++) {
+			bgArr[i]="-500px -500px";
+		}
+		bgArr[num]="0px 0px"
+		var newStyle=bgArr.join(",");
+		oDiv.style.backgroundPosition=newStyle;
+		num++;
+		if (num>2) {
+			num=0;
+		}
+	},1000);
+};
+//获取属性值
+function getStyle(obj,attr){
+	if (obj.currentStyle) {
+		return obj.currentStyle(attr);
+	}
+	else{
+		return getComputedStyle(obj,false)[attr];
+	}
+};	
+</script>
+</head>
+<body>
+	<div></div>
+</body>
+</html>
